@@ -1,0 +1,82 @@
+name: Java CI/CD Pipeline with Docker and AWS Deployment
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy:
+    name: Build, Test and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+
+    - name: Build and Test file-service
+      run: |
+        cd file-service
+        mvn -B clean package
+        mvn test
+
+    - name: Build Docker image for file-service
+      run: |
+        cd file-service
+        docker build -t file-service .
+
+    - name: Build and Test mock-service
+      run: |
+        cd mock-service
+        mvn -B clean package
+        mvn test
+
+    - name: Build Docker image for mock-service
+      run: |
+        cd mock-service
+        docker build -t mock-service .
+
+#    - name: Login to AWS ECR
+#      uses: aws-actions/amazon-ecr-login@v1
+#      with:
+#        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#        region: 'us-east-1'
+#
+#    - name: Push Docker images to AWS ECR
+#      run: |
+#        docker tag file-service:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/file-service:latest
+#        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/file-service:latest
+#
+#        docker tag mock-service:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/mock-service:latest
+#        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/mock-service:latest
+#
+#    - name: Deploy file-service to AWS Elastic Beanstalk
+#      uses: einaregilsson/beanstalk-deploy@v14
+#      with:
+#        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#        application_name: "file-service"
+#        environment_name: "production"
+#        region: "us-east-1"
+#        version_label: ${{ github.sha }}
+#        package: "file-service/Dockerrun.aws.json"
+#
+#    - name: Deploy mock-service to AWS Elastic Beanstalk
+#      uses: einaregilsson/beanstalk-deploy@v14
+#      with:
+#        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#      application_name: "mock-service"
+#        environment_name: "production"
+#        region: "us-east-1"
+#        version_label: ${{ github.sha }}
+#        package: "mock-service/Dockerrun.aws.json"
