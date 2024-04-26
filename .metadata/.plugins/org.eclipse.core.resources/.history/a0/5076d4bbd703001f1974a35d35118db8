@@ -1,0 +1,30 @@
+package com.gptw;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.gptw.model.dto.EmployeeDTO;
+import com.gptw.service.CSVReaderService;
+import com.gptw.service.KafkaPublisherService;
+
+public class CSVReaderServiceTest {
+
+	private CSVReaderService csvReaderService;
+	private KafkaPublisherService mockKafkaPublisherService;
+
+
+	@Test
+	public void testReadCSV() {
+		List<EmployeeDTO> employees = csvReaderService.readCSV("arquivoTeste.csv");
+		for (EmployeeDTO employeeDTO : employees) {
+			mockKafkaPublisherService
+			.publish(employeeDTO);
+			System.out.println(employeeDTO);
+		}
+	}
+}

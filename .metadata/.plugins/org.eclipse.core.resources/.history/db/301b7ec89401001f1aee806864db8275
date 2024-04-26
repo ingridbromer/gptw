@@ -1,0 +1,5 @@
+package com.gptw.resource;
+
+public class CSVReaderResource {
+
+}

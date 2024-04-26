@@ -1,0 +1,19 @@
+#JPA database configuration
+spring.datasource.url=jdbc:postgresql://db:5432/employee
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.driverClassName=org.postgresql.Driver
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+
+##Kafka Configs
+spring.kafka.bootstrap-servers=kafka:29092
+app.output-kafka-topic=employee-topic
+app.kafka-topic-num-partitions=1
+app.kafka-topic-replication-factor=1
+spring.kafka.producer.value-serializer=org.springframework.kafka.support.serializer.JsonSerializer 
+spring.kafka.producer.properties.spring.json.add.type.headers=false
+
+

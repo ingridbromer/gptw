@@ -1,0 +1,16 @@
+package com.gptw.service;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
+public class TokenService {
+    private static final String SECRET_KEY = "sua_chave_secreta_aqui";
+
+    public static String generateToken(String userId, String role) {
+        return Jwts.builder()
+                .setSubject(userId)
+                .claim("role", role)
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .compact();
+    }
+}

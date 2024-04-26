@@ -1,0 +1,31 @@
+package com.gptw.service;
+
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gptw.model.dto.EmployeeDTO;
+
+@Service
+public class KafkaConsumerService {
+
+	@Autowired
+	EmployeeService employeeService;
+
+	@KafkaListener(topics = "employee-topic", groupId = "group_id", containerFactory = "employeeKafkaListenerContainerFactory")
+	public void consumer(ConsumerRecord<String, EmployeeDTO> payload) {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			EmployeeDTO employee = mapper.convertValue(payload.value(), EmployeeDTO.class);
+			String token = new String(payload.key());
+			// Se o token nao estiver em branco nem for nula
+			if (token != null) {
+				employeeService.createEmployeeByTopicMessage(employee);
+			}
+		} catch (Exception e) {
+			System.out.println("Causa:" + e.getCause() + ", checar formato mensagem e token JWT");
+		}
+	}
+}

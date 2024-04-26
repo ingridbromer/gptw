@@ -1,0 +1,16 @@
+package com.gptw.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class JWTService {
+
+	public String gerarTokenJWT(String userId) {
+        String token = Jwts.builder()
+                        .setSubject(userId)
+                        .signWith(SignatureAlgorithm.HS256, "chave-secreta")
+                        .compact();
+        return token;
+    }
+	
+}

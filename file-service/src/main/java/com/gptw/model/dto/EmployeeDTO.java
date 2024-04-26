@@ -1,0 +1,40 @@
+package com.gptw.model.dto;
+
+import java.util.UUID;
+
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Data;
+
+@Data
+public class EmployeeDTO {
+
+	private UUID id;
+
+	private String name;
+
+	private String email;
+
+	private String department;
+
+	private String salary;
+
+	private String birthDate;
+
+	public EmployeeDTO(UUID id, String name, String email, String department, String salary, String birthDate) {
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.department = department;
+		this.salary = salary;
+		this.birthDate = birthDate;
+	}
+
+	public EmployeeDTO() {
+	}
+
+
+	
+
+}

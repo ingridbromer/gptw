@@ -1,0 +1,12 @@
+openapi: 3.0.3
+info:
+  title: Swagger Users - OpenAPI 3.0
+  description: |-
+    Microsserviço Java RESTful para leitura de CSV e publicação do registro em um tópico Kafka.  
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://localhost:8081
+tags:

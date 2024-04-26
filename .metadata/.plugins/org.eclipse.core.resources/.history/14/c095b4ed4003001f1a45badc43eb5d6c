@@ -1,0 +1,5 @@
+package com.gptw.config;
+
+public class OpenApiConfig {
+
+}
