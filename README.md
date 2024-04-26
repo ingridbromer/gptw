@@ -1,6 +1,6 @@
 Projeto com duas APIs Java RESTful:
 
-(1) File-service, realiza a leitura de arquivo CSV por meio de um GET :8081/readCSV e publica cada registro do arquivo no tópico employee-topic;
+(1) File-service, realiza a leitura de arquivo CSV com dados de funcionários, por meio de um GET :8081/readCSV,e publica cada registro do arquivo no tópico employee-topic;
 (2) Mock-service, possui consumer para o mesmo tópico, e salva os dados em um banco de dados NoSQL (SGBD PostgreSQL). Ainda, conta com CRUD para manipulação desses registros.
 
 Foi realizada a escolha do sistema de mensageria Kafka a fim de evitar perda de dados, por exemplo em uma eventual queda do banco de dados. 
