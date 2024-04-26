@@ -20,7 +20,7 @@ estão declarados no docker-compose. Nele, é possível manipular o perfil ativo
 Em dev (local), é necessário que o usuário tenha o pgAdmin (postgres) previamente instalado, e execute os serviços zookeeper, kafka e kafdrop via Docker.
 Nas propriedades das aplicações Java, será necessário alterar para suas credenciais postgres. 
 
-Em prd (docker), não é necessário realizar nenhuma alteração no docker-compose. Portanto, somente executar o "docker-compose up" diretamente será funcional.
+Em prd (docker), não é necessário realizar nenhuma alteração no docker-compose. Portanto, somente executar o "docker-compose up" diretamente será funcional. Lembrete: é importante gerar o JAR das aplicações antes desse passo. 
 
 Foi realizado um teste unitário na File-service para verificação da leitura do arquivo CSV e publicação no tópico Kafka.
 
