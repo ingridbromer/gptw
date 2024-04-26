@@ -1,0 +1,14 @@
+package com.gptw.resource;
+
+import org.springframework.web.bind.annotation.RestController;
+
+import com.gptw.service.CSVReaderService;
+
+
+@RestController
+public class CSVReaderResource {
+	
+	private final CSVReaderService csvReader;
+	
+
+}

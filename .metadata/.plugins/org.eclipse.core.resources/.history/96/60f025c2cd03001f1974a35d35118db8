@@ -1,0 +1,13 @@
+package com.gptw.service.test;
+
+import java.io.BufferedReader;
+
+import org.mockito.Mock;
+
+public class CSVReaderServiceTest {
+
+	 @Mock
+	    private BufferedReader bufferedReader;
+	
+
+}

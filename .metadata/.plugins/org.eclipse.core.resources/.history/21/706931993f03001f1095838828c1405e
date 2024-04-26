@@ -1,0 +1,29 @@
+package com.gptw.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.servers.Server;
+import io.swagger.v3.oas.models.OpenAPI;
+
+@Configuration
+@SecurityScheme(name = "Bearer Auth", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
+public class SwaggerConfig {
+
+	@Bean
+	OpenAPI myOpenApi() {
+
+		Server devServer = new Server();
+		devServer.setDescription("Server url: Ambiente de desenvolvimento");
+
+		Info info = new Info();
+		info.title("Documentação API");
+		info.version("1.4.0");
+		info.termsOfService("https://www.log2bee.com");
+
+		return new OpenAPI().info(info);
+	}
+}

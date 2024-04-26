@@ -1,0 +1,53 @@
+package com.gptw;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.gptw.model.dto.EmployeeDTO;
+import com.gptw.service.CSVReaderService;
+import com.gptw.service.KafkaPublisherService;
+
+public class CSVReaderServiceTest {
+
+	private CSVReaderService csvReaderService;
+	private KafkaPublisherService mockKafkaPublisherService;
+
+	@Before
+	public void setUp() {
+		// Mock do KafkaPublisherService para simular o comportamento do serviço real
+		mockKafkaPublisherService = mock(KafkaPublisherService.class);
+		csvReaderService = new CSVReaderService(mockKafkaPublisherService);
+	}
+
+	@Test
+	public void testReadCSV() {
+		
+		List<EmployeeDTO> employees = csvReaderService.readCSV("arquivoTeste.csv");
+
+		for (EmployeeDTO employeeDTO : employees) {
+			verify(mockKafkaPublisherService)
+			.publish(employeeDTO);
+		}
+		// Simulando a leitura do CSV passando a lista criada manualmente
+		// Verificar se o método publish do KafkaPublisherService foi chamado para cada
+		// funcionário
+		verify(mockKafkaPublisherService)
+				.publish(new EmployeeDTO(UUID.fromString("b7d95b13-d130-4d28-a81b-c454c98e461b"), "Mario",
+						"mario@greatpeople.com.br", "TI", "5000", "15/01/1987"));
+		verify(mockKafkaPublisherService)
+				.publish(new EmployeeDTO(UUID.fromString("6d01ce88-0ad6-4565-96b3-4d64a52bcbb9"), "Sonia",
+						"sonia@greatpeople.com.br", "TI", "5000", "27/02/1995"));
+
+		// Verificar se a lista de funcionários foi preenchida corretamente
+		// assertEquals(2, employees.size());
+		// assertEquals("John", employees.get(0).getName());
+		// assertEquals("Jane", employees.get(1).getName());
+	}
+}

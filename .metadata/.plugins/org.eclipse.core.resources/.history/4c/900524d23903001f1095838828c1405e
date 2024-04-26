@@ -1,0 +1,28 @@
+package com.gptw.service;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Service;
+
+import com.gptw.config.AppConfigProperties;
+import com.gptw.model.dto.EmployeeDTO;
+
+@Service
+public class KafkaPublisherService {
+
+	@Autowired
+	private KafkaTemplate<String, EmployeeDTO> kafkaTemplate;
+
+	private static final Logger LOG = LoggerFactory.getLogger(KafkaPublisherService.class);
+
+	@Autowired
+	private AppConfigProperties appConfig;
+
+	public void publish(EmployeeDTO dto) {
+		// token JWT no cabecalho da mensagem Kafka
+        kafkaTemplate.send(appConfig.getOutputKafkaTopic(), 1, appConfig.getSecretKey(), dto);
+	}
+
+}

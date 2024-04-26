@@ -1,0 +1,6 @@
+package com.gptw.resource;
+
+@RestController
+public class CSVReaderResource {
+
+}

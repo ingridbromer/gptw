@@ -1,0 +1,59 @@
+package com.gptw.service;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.gptw.model.dto.EmployeeDTO;
+
+@Service
+public class CSVReaderService {
+
+	@Autowired
+	KafkaPublisherService service;
+
+	public List<EmployeeDTO> readCSV(String filePath) {
+		List<EmployeeDTO> employees = new ArrayList<>();
+
+		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+			String line;
+			boolean headerSkipped = false; // Flag para pular o cabecalho do arquivo CSV
+
+			while ((line = br.readLine()) != null) {
+				if (!headerSkipped) {
+					// Pular o cabecalho
+					headerSkipped = true;
+					continue;
+				}
+
+				// Dividir a linha em campos usando a virgula como separador
+				String[] fields = line.split(",");
+
+				// Criar um novo objeto Employee e preenche seus campos
+				EmployeeDTO employee = new EmployeeDTO();
+				//employee.setId(UUID.randomUUID()); // Geracaoo de um UUID aleatório
+				employee.setName(fields[0].trim());
+				employee.setEmail(fields[1].trim());
+				employee.setDepartment(fields[2].trim());
+				employee.setSalary((fields[3].trim()));
+				employee.setBirthDate((fields[4].trim()));
+				service.publish(employee);
+				// Adicionar o funcionário à lista
+				employees.add(employee);
+			}
+		} catch (IOException e) {
+			e.printStackTrace(); // Lidar com a exceção de leitura do arquivo
+		}
+
+		return employees;
+	}
+
+}

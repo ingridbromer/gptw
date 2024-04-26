@@ -1,0 +1,17 @@
+package com.gptw;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+
+@SpringBootTest
+class FileServiceApplicationTests {
+
+	@Test
+	void contextLoads() {
+		CSVReaderServiceTest csvReaderServiceTest = new CSVReaderServiceTest();
+		csvReaderServiceTest.setUp(); // Executar o método setUp() se necessário
+		csvReaderServiceTest.testReadCSV();
+	}
+
+}

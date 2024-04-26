@@ -1,0 +1,32 @@
+package com.gptw.resource;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.gptw.model.Employee;
+import com.gptw.service.CSVReaderService;
+
+
+@RestController
+public class CSVReaderResource {
+	
+	@Autowired
+	CSVReaderService csvReaderService;
+	
+	  @GetMapping("/employees")
+	    public ResponseEntity<List<Employee>> getEmployees() {
+	        List<Employee> employees = csvReader.readCSV("caminho/do/seu/arquivo.csv");
+
+	        // Verificar se a lista de funcionários não está vazia
+	        if (employees.isEmpty()) {
+	            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Retornar 204 No Content se não houver dados
+	        }
+
+	        return new ResponseEntity<>(employees, HttpStatus.OK); // Retornar os funcionários lidos como resposta HTTP 200 OK
+	    }
+}

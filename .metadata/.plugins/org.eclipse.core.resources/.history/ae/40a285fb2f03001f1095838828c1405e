@@ -1,0 +1,26 @@
+package com.gptw.service;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+
+public class TokenValidationService {
+
+	    private static final String SECRET_KEY = "sua_chave_secreta_aqui";
+
+	    public static boolean validateToken(String token) {
+	        try {
+	            Claims claims = Jwts.parser()
+	                    .setSigningKey(SECRET_KEY)
+	                    .parseClaimsJws(token)
+	                    .getBody();
+
+	            // Aqui você pode fazer validações adicionais, como verificar permissões, se necessário
+
+	            return true;
+	        } catch (Exception e) {
+	            return false;
+	        }
+	    }
+	}
+
+}

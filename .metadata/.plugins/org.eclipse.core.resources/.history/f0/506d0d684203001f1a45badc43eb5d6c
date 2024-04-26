@@ -1,0 +1,16 @@
+#JPA database configuration
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+spring.datasource.driver-class-name=${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.postgresql.Driver}
+spring.datasource.url=${SPRING_DATASOURCE_URL:jdbc:postgresql://db:5432/employee}
+spring.jpa.hibernate.ddl-auto=${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+spring.datasource.username=${POSTGRES_USERNAME:postgres}
+spring.datasource.password=${POSTGRES_PASSWORD:postgres}
+
+##Kafka Configs
+spring.kafka.bootstrap-servers=${SPRING_KAFKA_BOOTSTRAP_SERVERS:kafka:29092}
+
+server.port=8081
+
+

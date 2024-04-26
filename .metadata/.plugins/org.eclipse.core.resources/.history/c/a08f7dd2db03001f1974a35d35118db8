@@ -1,0 +1,54 @@
+package com.gptw;
+
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.gptw.config.AppConfigProperties;
+import com.gptw.model.dto.EmployeeDTO;
+import com.gptw.service.CSVReaderService;
+import com.gptw.service.KafkaPublisherService;
+
+public class CSVReaderServiceTest {
+
+	private CSVReaderService csvReaderService;
+	private KafkaPublisherService mockKafkaPublisherService;
+	private AppConfigProperties appConfig;
+
+	@Before
+	public void setUp() {
+		// Inicializa os mocks
+		appConfig = new AppConfigProperties();
+		mockKafkaPublisherService = new KafkaPublisherService();
+		csvReaderService = new CSVReaderService(mockKafkaPublisherService);
+	}
+
+	  @Test
+	    public void testReadCSV() {
+	        List<EmployeeDTO> employees = csvReaderService.readCSV("arquivoTeste.csv");
+	        // Adicione aqui as verificações necessárias
+	     // Verifica se o método publish do KafkaPublisherService foi chamado para cada funcionário na lista
+	        for (EmployeeDTO employee : employees) {
+	            verify(mockKafkaPublisherService).publish(employee);
+	        }
+	    }
+
+	
+	
+	  @Test
+	    public void testPublisher() {
+	        // Configurar o comportamento do mock AppConfigProperties
+	        when(appConfig.getSecretKey()).thenReturn("secret_key");
+
+	        List<EmployeeDTO> employees = csvReaderService.readCSV("arquivoTeste.csv");
+	        for (EmployeeDTO employeeDTO : employees) {
+	            System.out.println(employeeDTO);
+	            mockKafkaPublisherService.publish(employeeDTO);
+	        }
+	        // Adicione aqui as verificações necessárias
+	    }
+	}

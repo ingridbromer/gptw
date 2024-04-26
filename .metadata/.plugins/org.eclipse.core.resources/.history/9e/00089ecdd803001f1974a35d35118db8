@@ -1,0 +1,40 @@
+package com.gptw;
+
+import java.util.List;
+
+import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import com.gptw.model.dto.EmployeeDTO;
+import com.gptw.service.CSVReaderService;
+import com.gptw.service.KafkaPublisherService;
+
+public class CSVReaderServiceTest {
+
+	@Mock
+	private CSVReaderService csvReaderService;
+
+	@Mock
+	private KafkaPublisherService mockKafkaPublisherService;
+
+	@InjectMocks
+	private CSVReaderService csvReaderServiceUnderTest;
+
+	@BeforeEach
+	public void setUp() {
+		MockitoAnnotations.openMocks(this); // Inicializa os mocks
+		csvReaderServiceUnderTest = new CSVReaderService(mockKafkaPublisherService);
+	}
+
+	@Test
+	public void testReadCSV() {
+		List<EmployeeDTO> employees = csvReaderService.readCSV("arquivoTeste.csv");
+		for (EmployeeDTO employeeDTO : employees) {
+			mockKafkaPublisherService.publish(employeeDTO);
+			System.out.println(employeeDTO);
+		}
+	}
+}
