@@ -9,7 +9,9 @@ Kafdrop foi utilizado como interface web amigável para visulização do tópico
 Para o consumo da mensagem no tópico, é necessário que o token JWT já pré-configurado seja passado como corpo da mensagem Kafka. 
 
 Ambas as APIs contam com documentação [Open-API] (http://server:port/swagger-ui/index.html). 
+
 Para a File-service: http://localhost:8081/swagger-ui/index.html
+
 Para a Mock-service: http://localhost:8082/swagger-ui/index.html
 
 Todos os serviços necessários para a execução das APIs (zookeeper, kafka, kafdrop, postgres, file-service e mock-service) 
